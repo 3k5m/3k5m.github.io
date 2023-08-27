@@ -1,67 +1,82 @@
+
+let dist = 0.0, vel = 0.0;
+let accel = 0.0, jerk = 0.0, snap = 0.0, crackle = 0.0, pop = 0.0; 
+let curtime = 0.0;
+
+
 function init() {
-  document.getElementById("startbtn").innerHTML = "initializing...";
+  document.getElementById("time").innerHTML = "Time: " + curtime.toFixed(3);  
+  document.getElementById("dist").innerHTML = "Distance: " + dist.toFixed(3);  
+  document.getElementById("vel").innerHTML = "Velocity: " + vel.toFixed(3);   
+  document.getElementById("accel").innerHTML = "Acceleration: " + accel.toFixed(3);   
+  document.getElementById("jerk").innerHTML = "Jerk: " + jerk.toFixed(3);   
+  document.getElementById("snap").innerHTML = "Snap: " + snap.toFixed(3);   
+  document.getElementById("crackle").innerHTML = "Crackle: " + crackle.toFixed(3);   
+  document.getElementById("pop").innerHTML = "Pop: " + pop.toFixed(3);  
 }
 
-var dist, vel, accel, jerk, snap, crackle, pop; 
-var time;
+init()
+
 function pop1(){
-  while(true){
-    document.getElementById("time").innerHTML = "Time: " + time;  
-    document.getElementById("dist").innerHTML = "Distance: " + dist;  
-    document.getElementById("vel").innerHTML = "Velocity: " + vel;  
-    document.getElementById("accel").innerHTML = "Acceleration: " + accel;  
-    document.getElementById("jerk").innerHTML = "Jerk: " + jerk;  
-    document.getElementById("snap").innerHTML = "Snap: " + snap;  
-    document.getElementById("crackle").innerHTML = "Crackle: " + crackle; 
-    document.getElementById("pop").innerHTML = "Pop: " + pop;  
-  }
-}
-
-let money;
-let target;
-
-// initialize
-function start ()
-{ money = document.forms.example.money
-  target = document.forms.example.target
-}
-
-// each frame
-function update (delta)
-{ const next = lerp(Number(money.value), Number(target.value), delta/1e2)
-  money.value = next.toFixed(2)
-}
-
-// helpers
-function lerp (v0, v1, t, p = 1e-3)
-{ const next = (1 - t) * v0 + t * v1
-  if (Math.abs(v1 - next) < p)
-    return v1
-  else
-    return next
+  pop += 1.0;
+  init()
 }
 
 function sleep (ms)
 { return new Promise(r => setTimeout(r, ms)) }
 
-function time ()
-{ let now = Date.now()
-  let last
-  return _ =>
-  { last = now
-    now = Date.now()
-    return now - last
+
+let lastLoop = Date.now()
+function update(){
+  let thisLoop = Date.now();
+  let delta = (thisLoop - lastLoop)/1000
+  lastLoop = thisLoop
+
+  curtime = curtime + delta
+  dist = dist + vel * delta
+  vel = vel + accel * delta
+  accel = accel + jerk * delta
+  jerk = jerk + snap * delta
+  snap = snap + crackle * delta
+  crackle = crackle + pop * delta
+
+  document.getElementById("time").innerHTML = "Time: " + curtime.toFixed(3);  
+  document.getElementById("dist").innerHTML = "Distance: " + dist.toFixed(3);  
+  document.getElementById("vel").innerHTML = "Velocity: " + vel.toFixed(3);   
+  document.getElementById("accel").innerHTML = "Acceleration: " + accel.toFixed(3);   
+  document.getElementById("jerk").innerHTML = "Jerk: " + jerk.toFixed(3);   
+  document.getElementById("snap").innerHTML = "Snap: " + snap.toFixed(3);   
+  document.getElementById("crackle").innerHTML = "Crackle: " + crackle.toFixed(3);   
+  document.getElementById("pop").innerHTML = "Pop: " + pop.toFixed(3);  
+  
+}
+
+async function loop(){
+  await init()
+  while(true){
+    await update()
+    await sleep(40)
   }
 }
 
-async function loop ()
-{ const deltaTime = time()
-  await start()               // call `start` to initialize
-  while (true)
-  { await update(deltaTime()) // call `update` each frame
+function* lerp (v0, v1, t, p = 1e-3)
+{ do
+  { yield v0
+    v0 = (1 - t) * v0 + t * v1
+  } while (Math.abs(v1 - v0) > p)
+  yield v1
+}
+
+
+async function onSubmit (event)
+{ event.preventDefault()
+  const f = event.target
+
+  // iterate over lerp generator
+  for (const v of lerp(Number(f.from.value), Number(f.to.value), 0.33))
+  { f.output.value = v.toFixed(2)
     await sleep(50)
   }
 }
 
-// run the game
-loop()
+document.forms.example.addEventListener("submit", onSubmit)

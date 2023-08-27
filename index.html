@@ -3,8 +3,7 @@
   <head>
     <title>Testing random things</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="/style.css" rel="stylesheet" type="text/css" media="all">
-    <script src="/main.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css" media="all">
   </head>
 
   <body>
@@ -12,9 +11,10 @@
     <button onClick="init()" id="initbtn"> start </button>
 
     <h1> derivatives of velocity (exponential growth test) </h1>
-    <button onClick="pop1()" id="popbtn"> set pop to 1 </button>
+    <button onClick="pop1()" id="popbtn"> increment pop (press once to init)</button>
+    <button onClick="loop()" id="popbtn"> begin </button>
     <p id="time"></p>
-    <p id="vel">dist 0.00</p>
+    <p id="dist">dist 0.00</p>
     <p id="vel">0.00</p>
     <p id="accel">0.00</p>
     <p id="jerk">0.00</p>
@@ -23,10 +23,13 @@
     <p id="pop">0.00</p>
 
     <form id="example">
-    target: <input type="number" name="target" value="3000">
-    &larr; try a big value like <b>99999999</b><br>
-    money: <output name="money">0.00</output><br>
+      from: <input name="from" value="10000"><br>
+      to: <input name="to" value="90000"><br>
+      output: <output name="output"></output><br>
+      <button type="submit">test interpolation</button>
     </form>
     
+
+    <script src="main.js"></script>
   </body>
 </html>
