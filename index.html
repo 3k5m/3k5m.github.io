@@ -7,11 +7,15 @@
   </head>
 
   <body>
-    <h1>rng thing</h1>
+    <h1>rng thing (currently broken)</h1>
     <button onClick="init()" id="initbtn"> start </button>
 
     <h1> derivatives of velocity (exponential growth test) </h1>
-    <button onClick="pop1()" id="popbtn"> increment pop (press once to init)</button>
+    <button onClick="popadd(0.001)" id="popbtn"> increment pop by 0.001</button>
+    <button onClick="popadd(1)" id="popbtn"> increment pop by 1</button>
+    <button onClick="popadd(10000)" id="popbtn"> increment pop by 10000</button>
+    <button onClick="accadd(1)" id="popbtn"> increment acceleration by 1</button>
+    <button onClick="poppow1()" id="popbtn"> multiply pop by 1.1</button>
     <button onClick="loop()" id="popbtn"> begin </button>
     <p id="time"></p>
     <p id="dist">dist 0.00</p>
@@ -23,8 +27,8 @@
     <p id="pop">0.00</p>
 
     <form id="example">
-      from: <input name="from" value="10000"><br>
-      to: <input name="to" value="90000"><br>
+      from: <input name="from" value="0.01"><br>
+      to: <input name="to" value="99999.99"><br>
       output: <output name="output"></output><br>
       <button type="submit">test interpolation</button>
     </form>
