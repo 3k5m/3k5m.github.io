@@ -75,6 +75,17 @@ function setvar(v, n){
   updateText()
 }
 
+function tick(){
+  let delta = 1
+  delta = delta * timeSpeed
+
+  curtime = curtime + delta
+  for(i=0;i<derivatives.length-1;i++){
+    derivatives[i] = derivatives[i] + derivatives[i+1] * delta
+  }
+  updateText()
+}
+
 function update(){
   let thisLoop = Date.now();
   let delta = (thisLoop - lastLoop)/1000
@@ -111,27 +122,3 @@ function changeVars (event) {
 
 document.forms.setvariable.addEventListener("submit", changeVars)
 
-
-
-
-//interpolation testing stuff
-
-function* lerp (v0, v1, t, p = 1e-3) {
-  do { yield v0
-    v0 = (1 - t) * v0 + t * v1
-  } while (Math.abs(v1 - v0) > p)
-  yield v1
-}
-
-async function onSubmit (event) {
-  event.preventDefault()
-  const f = event.target
-
-  // iterate over lerp generator
-  for (const v of lerp(Number(f.from.value), Number(f.to.value), 0.1)){
-    f.output.value = v.toFixed(2)
-    await sleep(50)
-  }
-}
-
-document.forms.intertest.addEventListener("submit", onSubmit)

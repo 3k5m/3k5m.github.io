@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Testing random things</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--<link href="style.css" rel="stylesheet" type="text/css" media="all">
+  -->
+
+  </head>
+
+  <body>
+
+    <form id="setvariable" onsubmit="return false">
+      <h3>Set Variables Here: </h3>
+      Allowed names: 0-6, time, timespeed, *derivative text names* <br>
+      Variable Name (LOWER CASE ONLY):  <input name="name" value="1"><br>
+      Value (any real number):  <input name="value" value="1.0"><br>
+      <button type="submit">Set Variable</button>
+    </form>
+
+    <br> <br>
+
+    Shortcuts for those lazy to enter variable name or value: (also these are legacy buttons) <br><br>
+    <button onClick="setvar('pop',derivatives[6]+0.001)     "> increment pop by 0.001</button>
+    <button onClick="setvar('pop',derivatives[6]+1)         "> increment pop by 1</button>
+    <button onClick="setvar('pop',derivatives[6]+10000)     "> increment pop by 10000</button>
+    <button onClick="setvar('acceleration',derivatives[2]+1)"> increment acceleration by 1</button>
+    <button onClick="setvar('pop',derivatives[6]*1.1)       "> multiply pop by 1.1</button>
+
+    <br> <br>
+
+    <button onClick="setvar('timespeed', 0.01)"> set timespeed to 0.01 </button>
+    <button onClick="setvar('timespeed', 0.1) "> set timespeed to 0.1 </button>
+    <button onClick="setvar('timespeed', 1)   "> set timespeed to 1 </button>
+    <button onClick="setvar('timespeed', 10)  "> set timespeed to 10 </button>
+    <button onClick="setvar('timespeed', 100) "> set timespeed to 100 </button>
+
+    <br> <br>
+
+    <button onClick="tick()"> Tick </button>
+    <button onClick="loop()"> Begin </button>
+    <button onClick="pause()"> Pause </button>
+    <button onClick="init()"> Reset </button>
+
+    <br>
+
+    <h2><p id="timespd"></p></h2>
+    <h2><p id="time"></p></h2>
+    <h2><p id="status">LOADING (error if this persists)</p></h2>
+
+    <br>
+
+    <p id="dist"></p>
+    <p id="vel"></p>
+    <p id="accel"></p>
+    <p id="jerk"></p>
+    <p id="snap"></p>
+    <p id="crackle"></p>
+    <p id="pop"></p>
+
+    <br><br>
+  
+
+    <script src="tests.js"></script>
+  </body>
+</html>
